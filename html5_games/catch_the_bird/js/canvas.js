@@ -123,6 +123,11 @@ function show_gamePlay_scene()
 function show_gameOver_scene()
 {
         gameOver_text.drawText();
+        score = 0;
+        level = 0;
+        clickTry = 10;
+        bird.xSpd = 5;
+        bird.ySpd = 5;
         setTimeout(function(){current_scene = "menu"}, 3000);
 }
 

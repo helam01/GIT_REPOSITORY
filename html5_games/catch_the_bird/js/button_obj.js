@@ -39,6 +39,7 @@ function Button()
                 if( (e.clientX >= obj.x && e.clientX <= obj.x+obj.w ) && (e.clientY >= obj.y && e.clientY <=obj.y+obj.h)) {
                     current_scene = "gamePlay";
                     console.log("Btn clicked");
+                    return true;
                 }   
             }
         }
