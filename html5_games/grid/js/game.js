@@ -25,9 +25,14 @@ var Grid = function(Canvas, Context){
 		defPositions: function(){
 			var totalW = this.w / (this.blockW);
 			totalW = Math.round(totalW);
-			var totalH = this.h / (this.blockH + 1);
-			for (i=0; i <= totalW; i++){
+			var totalH = this.h / (this.blockH);
+			totalH = Math.round(totalH);
+
+			for (i=0; i < totalW-1; i++){
 				this.gridPositions[0][i] = this.blockW*i; 
+			}
+			for (i=0; i < totalH-2; i++){
+				this.gridPositions[1][i] = this.blockH*i; 
 			}
 		},
 
@@ -35,12 +40,14 @@ var Grid = function(Canvas, Context){
 			this.defPositions();
 			this.context.fillStyle = this.blockColor;
 			for (var i = 0; i < this.gridPositions[0].length-1; i++) {
-				this.context.fillRect(
-					this.gridPositions[0][i]+i,
-					this.blockY,
-					this.blockW,
-					this.blockH
-				);
+				for (var j = 0; j < this.gridPositions[0].length-1; j++) {
+					this.context.fillRect(
+						this.gridPositions[0][i]+i,
+						this.gridPositions[1][j]+j,
+						this.blockW,
+						this.blockH
+					);
+				}
 			}
 
 			
