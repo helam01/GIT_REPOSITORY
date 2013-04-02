@@ -9,9 +9,6 @@ canvas.h = canvas.height;
 var canvasW = canvas.width;
 var canvasH = canvas.height;
 
-//Define o loop do game com 20 FPS (1000/20 = 50)
-var interval = window.setInterval('gameLoop()', 1000 / fps); 
-
 
 /**
 * Define um novo Objeto de Scene para tela de intro
@@ -48,9 +45,9 @@ btn_start.img_path = "img/menu/btn_play_a.png";
 /**
 * Define um novo Objeto do Bird
 */
-Bird.canvas = canvas;
-Bird.context = context;
-var bird = Bird
+var bird = new Bird();
+bird.canvas = canvas;
+bird.context = context;
 
 /**
 * Define um novo objeto do Texto
@@ -65,13 +62,6 @@ gameOver_text.color = "FF0000";
 gameOver_text.size = "30px";
 gameOver_text.x = 300;
 gameOver_text.y = 300;
-
-
-function gameLoop()
-{   
-        countTime()             
-        drawElements();
-}
 
 
 
@@ -141,50 +131,29 @@ function drawElements()
         * Verifica qual Scene irá abrir 
         */
         console.log(current_scene);
-        switch(current_scene)
+        switch( current_scene )
         {
-                case "intro":
-                        show_intro_scene();
-                        break;
-                case "menu":
-                        show_menu_scene();
-                        break;        
-                case "gamePlay":
-                        show_gamePlay_scene();
-                        break;
-                case "gameOver":
-                        show_gameOver_scene();
-                        break;
+            case "intro":
+                    show_intro_scene();
+                    break;
+            case "menu":
+                    show_menu_scene();
+                    break;        
+            case "gamePlay":
+                    show_gamePlay_scene();
+                    break;
+            case "gameOver":
+                    show_gameOver_scene();
+                    break;
         }
-        /*
-        if (!gameOver){
-            if(show_intro_scene) {
-                scene_intro.drawScene();
-                // Exibe a tela de intro por 5 segundos
-                setTimeout(function(){show_intro_scene = false}, 5000);
-            }
-            else {
-                    
-                    // Exibe o obejto na tela
-                    bird.create();                
-                    // Altera a posição
-                    bird.move();
-                    // Verifica se houve um click sobre o objto
-                    bird.mouseClick();
+}
 
 
-                    
-                    // Define o texto
-                    score_text.text = "Points: " + score + " | level: " + level + " | Try: " + clickTry;                
-                    // Define a posição
-                    score_text.x = 250;
-                    score_text.y = 20;
-                    // Exibe o texto na tela.
-                    score_text.drawText();
-            }
-        }
-        else {
-            gameOver_text.drawText();
-        }
-        */
+
+
+var interval = window.setInterval('gameLoop()', 1000 / fps); 
+function gameLoop()
+{  
+    countTime();
+    drawElements();
 }

@@ -38,7 +38,7 @@ function Button()
             this.canvas.onmousedown = function(e){
                 if( (e.clientX >= obj.x && e.clientX <= obj.x+obj.w ) && (e.clientY >= obj.y && e.clientY <=obj.y+obj.h)) {
                     current_scene = "gamePlay";
-                    console.log("Btn clicked");
+                    console.log("Btn clicked - " + current_scene);
                     return true;
                 }   
             }

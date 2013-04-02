@@ -8,13 +8,13 @@
 */
 function countTime()
 {
-        if (timer == fps){
-            timer = 0;
-            sec ++;
-        }
-        else {
-            timer ++;                                
-        }
+    if (timer == fps){
+        timer = 0;
+        sec ++;
+    }
+    else {
+        timer ++;
+    }
 }
 
 /**
@@ -27,14 +27,14 @@ if (score % 5 == 0) {
     level += 1;
     // Aumenta a velocidade do bird
     if (obj.xSpd > 0)
-        obj.xSpd += 5;
+        obj.xSpd += 0.5;
     else
-        obj.xSpd -= 5;
+        obj.xSpd -= 0.5;
 
     if (obj.ySpd > 0)
-        obj.ySpd += 5;
+        obj.ySpd += 0.5;
     else
-        obj.ySpd -= 5;
+        obj.ySpd -= 0.5;
 
     console.log("xS: " + obj.ySpd + " - yS: " + obj.ySpd);
 }
@@ -45,5 +45,5 @@ if (score % 5 == 0) {
 */
 function countScore()
 {
-score += 1;
+    score += 1;
 }

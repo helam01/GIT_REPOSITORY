@@ -2,23 +2,51 @@
 * Objeto Principal
 * 
 */
-var Bird = {
+function Bird()
+{
+    return {
         canvas  : null,
         context : null,
         name    : 'Bird',
         img     : new Image(),
         x       : 100,
         y       : 100,
-        w       : 98,
-        h       : 96,
+        w       : 80,
+        h       : 80,
         xSpd    : 5,
         ySpd    : 5,
         collid  : false,
         canMove : true,
+        sprite_frame: 0,            // Usado para calcular a velocidade de atualização das imagens
+        sprite_current_frame: 0,    // Armazena a posição da imagem atual do stripe
+        sprite_total_frames: 6,     // Armazena o toral de imagens do sprite
+
         create  : function(){
-           this.img.src ="img/image01.JPG";
-           this.context.drawImage(this.img, this.x, this.y)
+           this.img.src ="img/sprites/sprite_ball.png";
+           //this.context.drawImage(this.img, this.x, this.y)
+           this.context.drawImage(
+                this.img,
+                1,                          // sprite X: posição X do sprite que será exibida
+                (this.h+2) * this.sprite_current_frame, // sprite Y: posição Y do sprite que será exibida
+                this.w,                     // Escala X do sprite quando exibido (deixar igual a largura)
+                this.h,                     // Escala Y do sprite quando exibido (deixar igual a altura)
+                this.x,                     // Posição X do sprite no canvas
+                this.y,                     // Posição Y do sprite no canvas
+                this.w,                     // Area X do sprite que será exibida
+                this.h                      // Area Y do sprite que será exibida
+            );
+           if ( this.sprite_frame == 2 ) {
+                this.sprite_frame = 0;
+                if( this.sprite_current_frame == this.sprite_total_frames ) {
+                    this.sprite_current_frame = 0;
+                } else {
+                    this.sprite_current_frame ++;
+                }
+           } else {
+                this.sprite_frame ++;
+           }
         },
+        
         move   : function(){
             if (this.canMove) {
                 this.x += this.xSpd;
@@ -52,53 +80,27 @@ var Bird = {
                     checkLevel(obj);
                     
                     //Altera a posição X e Y para um valor random
-                    Bird.x = Math.floor((Math.random()*(Bird.canvas.width-Bird.w))+1);
-                    Bird.y = Math.floor((Math.random()*(Bird.canvas.height-Bird.h))+1);
+                    obj.x = Math.floor((Math.random()*(obj.canvas.width-obj.w))+1);
+                    obj.y = Math.floor((Math.random()*(obj.canvas.height-obj.h))+1);
 
                     if (obj.xSpd > 0)
-                        obj.xSpd += 1;
+                        obj.xSpd += 0.3;
                     else
-                        obj.xSpd -= 1;
+                        obj.xSpd -= 0.3;
 
                     if (obj.ySpd > 0)
-                        obj.ySpd += 1;
+                        obj.ySpd += 0.3;
                     else
-                        obj.ySpd -= 1;
+                        obj.ySpd -= 0.3;
                 }
                 else {
-                    if (clickTry <= 1) {
+                    if (clickTry <= 0) {
                         current_scene = "gameOver";
                     }
                     clickTry -= 1;
                 }    
             };
-        },
-
-        mouseClickedAction: function(e){                    
-            if( (e.clientX >= Bird.x && e.clientX <= Bird.x+Bird.w ) && (e.clientY >= Bird.y && e.clientY <=Bird.y+Bird.h)) {
-                countScore();
-                checkLevel(Bird);
-                
-                //Altera a posição X e Y para um valor random
-                Bird.x = Math.floor((Math.random()*(Bird.canvas.width-Bird.w))+1);
-                Bird.y = Math.floor((Math.random()*(Bird.canvas.height-Bird.h))+1);
-
-                if (obj.xSpd > 0)
-                    obj.xSpd += 1;
-                else
-                    obj.xSpd -= 1;
-
-                if (obj.ySpd > 0)
-                    obj.ySpd += 1;
-                else
-                    obj.ySpd -= 1;
-            }
-            else {
-                if (clickTry <= 1) {
-                    current_scene = "gameOver";
-                }
-                clickTry -= 1;
-            }
         }
 
+    }
 };
