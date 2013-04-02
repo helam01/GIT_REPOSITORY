@@ -35,6 +35,7 @@ function Bird()
                 this.w,                     // Area X do sprite que será exibida
                 this.h                      // Area Y do sprite que será exibida
             );
+
            if ( this.sprite_frame == 2 ) {
                 this.sprite_frame = 0;
                 if( this.sprite_current_frame == this.sprite_total_frames ) {
