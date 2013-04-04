@@ -22,7 +22,8 @@ var Grid = function(Canvas, Context){
 		x: 0,
 		y: 0,
 		gridPositions: [[],[]],
-		gridBlockPositions: [[],[]],
+		//gridBlockPositions: [[],[]],
+		gridBlockPositions: [Array()],
 		blockW: 40,
 		blockH: 40,
 		blockX: 0,
@@ -91,80 +92,54 @@ var Player = function(Canvas, Context, Grid)
 			if(this.moveX && this.moveY){
 				var curGridX = this.curGridX;
 				var player = this;
-				window.onkeydown = function(key){	
-					console.log(player.grid.gridBlockPositions);
+				var lastCurGridX =  player.curGridX;
+				var lastCurGridY =  player.curGridY;
+
+				window.onkeydown = function(key){
 					if( key.keyCode == 37 ){ // Left
 						console.log("Left");
 						if( player.curGridX > 0 ){
-							player.curGridX -= 1;
-							/*
-							for(var i=0; i < player.grid.gridBlockPositions[0].length; i++){
-								if( (player.curGridX-1) == player.grid.gridBlockPositions[0][i]){
-									//player.moveX = false;
-								} else {
-									player.moveX = true;
-								}
-							}
-							*/							
+							lastCurGridX = player.curGridX;
+							player.curGridX -= 1;	
 						}
 					}
 
 					if( key.keyCode == 38 ){ // Up
 						console.log("Up");
 						if( player.curGridY > 0 ){
-							player.curGridY -= 1;
-							/*
-							for(var i=0; i < player.grid.gridBlockPositions[1].length; i++){
-								if( (player.curGridY-1) == player.grid.gridBlockPositions[1][i]){
-									//player.moveY = false;
-								} else {
-									player.moveY = true;
-								}
-							}
-							*/							
+							lastCurGridY = player.curGridY;
+							player.curGridY -= 1;	
 						}
 					}
 
 					if( key.keyCode == 39 ){ // Right
 						console.log("Right");
 						if( player.curGridX < player.grid.gridPositions[0].length-2 ){
+							lastCurGridX = player.curGridX;
 							player.curGridX += 1;
-							/*
-							for(var i=0; i < player.grid.gridBlockPositions[0].length; i++){
-								if( (player.curGridX+1) == player.grid.gridBlockPositions[0][i]){
-									//player.moveX = false;
-								} else {
-									player.moveY = true;
-								}
-							}
-							*/
-							
 						}
 					}
 
 					if( key.keyCode == 40 ){ // Down
 						console.log("down");
 						if( player.curGridY < player.grid.gridPositions[1].length-1 ) {
+							lastCurGridY = player.curGridY;
 							player.curGridY += 1;
-							/*
-							for(var i=0; i < player.grid.gridBlockPositions[1].length; i++){
-								if( (player.curGridY+1) == player.grid.gridBlockPositions[1][i]){
-									//player.moveY = false;
-								} else {
-									player.moveY = true;
-								}
-							}
-							*/
-
 						}
 					}
-
-					for(var i=0; i < player.grid.gridBlockPositions[1].length; i++){
-						if( player.curGridX == player.grid.gridBlockPositions[0][i]
-							&&  player.curGridY == player.grid.gridBlockPositions[1][i] ){
+					/*				
+					console.log(player.grid.gridBlockPositions);
+					console.log(lastCurGridX + " | " + lastCurGridY);
+					console.log(player.curGridX + " | " + player.curGridY);
+					*/
+					for(var i=0; i < player.grid.gridBlockPositions.length; i++){
+						if( (player.curGridX == player.grid.gridBlockPositions[i][0])
+							&&  player.curGridY == player.grid.gridBlockPositions[i][1] ){
 
 							player.moveX  = false;
 							player.moveY = false;
+							player.curGridX = lastCurGridX;
+							player.curGridY = lastCurGridY;
 							break;
 						}
 						else {
@@ -172,16 +147,9 @@ var Player = function(Canvas, Context, Grid)
 							player.moveY = true;
 						}
 					}
-					if( player.moveX && player.moveY) {
-						player.x = player.grid.gridPositions[0][player.curGridX];
-						player.y = player.grid.gridPositions[1][player.curGridY];
-						console.log("X: " + player.moveX + " - " + player.x);
-						console.log("Y " + player.moveY + " - " + player.y);
-					} else {
-						player.x = player.x;
-						player.y = player.y;
-					}
-
+					player.x = player.grid.gridPositions[0][player.curGridX];
+					player.y = player.grid.gridPositions[1][player.curGridY];
+					
 				}					
 			}
 		}
@@ -222,32 +190,35 @@ var Wall = function(Canvas, Context, Grid)
 			var blockY = false;
 
 			// Verifica X
-			if(this.grid.gridBlockPositions[0].length == 0){
-				this.grid.gridBlockPositions[0][0] != x;
-				blockX = true;
+			if(this.grid.gridBlockPositions.length == 0){
+				if (this.grid.gridBlockPositions[0][0] != x)
+						blockX = true;
 			}
 			else{ 	
-				for(var i=0; i< this.grid.gridBlockPositions[0].length; i++){
-					if (this.grid.gridBlockPositions[0][i] != x)
+				for(var i=0; i< this.grid.gridBlockPositions.length; i++){
+					if (this.grid.gridBlockPositions[i][0] != x)
 						blockX = true;
 				}
 			}
 
 			// Verifica Y
-			if(this.grid.gridBlockPositions[1].length == 0){
-				this.grid.gridBlockPositions[1][0] != y;
-				blockY = true;
+			if(this.grid.gridBlockPositions.length == 0){
+				if (this.grid.gridBlockPositions[0][1] != y)
+						blockY = true;
 			}
 			else{
-				for(var i=0; i< this.grid.gridBlockPositions[1].length; i++){
-					if (this.grid.gridBlockPositions[1][i] != y)
+				for(var i=0; i< this.grid.gridBlockPositions.length; i++){
+					if (this.grid.gridBlockPositions[i][1] == y){
+						blockY = false;
+						break;
+					}
+					else if (this.grid.gridBlockPositions[i][1] != y)
 						blockY = true;
 				}
 			}
 			//console.log(this.grid.gridBlockPositions);
 			if (blockX && blockY){
-				this.grid.gridBlockPositions[0].push(x);
-				this.grid.gridBlockPositions[1].push(y);
+				this.grid.gridBlockPositions.push(Array(x,y));
 			}
 
 			this.x = Grid.gridPositions[0][x];
@@ -270,7 +241,11 @@ var Wall = function(Canvas, Context, Grid)
 var grid = new Grid(canvas, context);
 grid.defPositions();
 var player = new Player(canvas, context, grid);
-var wall = new Wall(canvas, context, grid);
+
+var wall = Array();
+for (var i = 0; i < 10; i++) {
+	wall.push( new Wall(canvas, context, grid) );
+};
 
 function countFrames()
 {
@@ -285,8 +260,9 @@ function drawElements()
 	context.clearRect(0, 0, canvas.w, canvas.h);
 	grid.drawGrid();
 	
-	wall.create(5,1);
-	wall.collid(player);
+	for (var i = 0; i < wall.length; i++) {
+		wall[i].create(6,i+2);
+	};
 
 	player.create();
 	player.fMove();
