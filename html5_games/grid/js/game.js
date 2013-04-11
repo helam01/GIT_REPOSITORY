@@ -260,9 +260,12 @@ function drawElements()
 	context.clearRect(0, 0, canvas.w, canvas.h);
 	grid.drawGrid();
 	
-	for (var i = 0; i < wall.length; i++) {
-		wall[i].create(6,i+2);
-	};
+	for (var i = 0; i < 5; i++) {
+		wall[i].create(6, i+2);
+	}
+	for (var i = 5; i < 10; i++) {
+		wall[i].create(10, i+2);
+	}
 
 	player.create();
 	player.fMove();
