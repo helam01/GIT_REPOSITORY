@@ -23,7 +23,6 @@ function Bird()
 
         create  : function(){
            this.img.src ="img/sprites/sprite_ball.png";
-           //this.context.drawImage(this.img, this.x, this.y)
            this.context.drawImage(
                 this.img,
                 1,                          // sprite X: posição X do sprite que será exibida
